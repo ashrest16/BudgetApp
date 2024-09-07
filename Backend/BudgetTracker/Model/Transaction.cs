@@ -26,6 +26,8 @@ public class Transaction
     [MaxLength(10)]
     public string Date{ get; set; } = String.Empty;
     
+    [ForeignKey("AppUser")]
+    [Column("app_user_id")]
     public string AppUserId { get; set; }
     
     public AppUser AppUser { get; set; }

@@ -5,8 +5,8 @@ namespace BudgetTracker.Interfaces;
 
 public interface IBudgetRepository
 {
-    Task<List<Budget>> GetAllBudgetAsync(QueryObject query);
-    Task<Budget?> GetByIdBudgetAsync(int id);
-    Task<Budget> CreateBudgetAsync(Budget budget);
-    Task<Budget?> DeleteBudgetAsync(int id);
+    Task<List<Budget>> GetAllAsync(string appUserId,QueryObject query);
+    Task<Budget?> GetByIdAsync(int id);
+    Task<Budget> CreateAsync(Budget budget);
+    Task<Budget?> DeleteAsync(int id);
 }

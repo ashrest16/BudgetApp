@@ -21,6 +21,8 @@ public class Budget
     [Column("budget_spent")] 
     public double Spent { get; set; } = 0.0;
     
+    [ForeignKey("AppUser")]
+    [Column("app_user_id")]
     public string AppUserId { get; set; }
     
     public AppUser AppUser { get; set; }

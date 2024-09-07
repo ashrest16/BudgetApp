@@ -236,3 +236,4 @@
 /Users/aryanshrestha/Documents/Personal/BudgetApp/Backend/BudgetTracker/obj/Debug/net8.0/BudgetTracker.pdb
 /Users/aryanshrestha/Documents/Personal/BudgetApp/Backend/BudgetTracker/obj/Debug/net8.0/BudgetTracker.genruntimeconfig.cache
 /Users/aryanshrestha/Documents/Personal/BudgetApp/Backend/BudgetTracker/obj/Debug/net8.0/ref/BudgetTracker.dll
+/Users/aryanshrestha/Documents/Personal/BudgetApp/Backend/BudgetTracker/obj/Debug/net8.0/BudgetTracker.sourcelink.json

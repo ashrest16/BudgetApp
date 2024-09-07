@@ -9,7 +9,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace BudgetTracker.Migrations
 {
     /// <inheritdoc />
-    public partial class AddRelation : Migration
+    public partial class createBudget : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -160,6 +160,28 @@ namespace BudgetTracker.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Budget",
+                columns: table => new
+                {
+                    budget_id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    budget_name = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: false),
+                    budget_amount = table.Column<double>(type: "double precision", nullable: false),
+                    budget_spent = table.Column<double>(type: "double precision", nullable: false),
+                    AppUserId = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Budget", x => x.budget_id);
+                    table.ForeignKey(
+                        name: "FK_Budget_AspNetUsers_AppUserId",
+                        column: x => x.AppUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "transaction",
                 columns: table => new
                 {
@@ -188,8 +210,8 @@ namespace BudgetTracker.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "4569d27d-2801-4b6e-8f9c-23fb8967b893", null, "ADMIN", "ADMIN" },
-                    { "f0bf3d79-4001-427b-a15c-4f3822d56fd1", null, "USER", "USER" }
+                    { "1a58a702-cce3-4f18-893b-959c4f27711c", null, "ADMIN", "ADMIN" },
+                    { "4842d553-2d00-4592-943c-6a11c0a045f0", null, "USER", "USER" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -230,6 +252,11 @@ namespace BudgetTracker.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Budget_AppUserId",
+                table: "Budget",
+                column: "AppUserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_transaction_AppUserId",
                 table: "transaction",
                 column: "AppUserId");
@@ -252,6 +279,9 @@ namespace BudgetTracker.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "Budget");
 
             migrationBuilder.DropTable(
                 name: "transaction");

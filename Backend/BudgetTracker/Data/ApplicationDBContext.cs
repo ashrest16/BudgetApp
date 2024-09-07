@@ -14,6 +14,7 @@ public class ApplicationDBContext : IdentityDbContext<AppUser>
     }
 
     public DbSet<Transaction> Transactions { get; set; }
+    public DbSet<Budget> Budgets { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -27,6 +28,11 @@ public class ApplicationDBContext : IdentityDbContext<AppUser>
             .HasOne(t => t.AppUser)
             .WithMany(u => u.Transactions)
             .HasForeignKey(t => t.AppUserId)
+            .OnDelete(DeleteBehavior.Cascade);
+        builder.Entity<Budget>()
+            .HasOne(b => b.AppUser)
+            .WithMany(u => u.Budgets)
+            .HasForeignKey(b => b.AppUserId)
             .OnDelete(DeleteBehavior.Cascade);
         List<IdentityRole> roles =
         [

@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace BudgetTracker.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20240902042653_AddRelation")]
-    partial class AddRelation
+    [Migration("20240907171416_Auth")]
+    partial class Auth
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -89,6 +89,41 @@ namespace BudgetTracker.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("BudgetTracker.Model.Budget", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("budget_id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<double>("Amount")
+                        .HasColumnType("double precision")
+                        .HasColumnName("budget_amount");
+
+                    b.Property<string>("AppUserId")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("app_user_id");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("character varying(30)")
+                        .HasColumnName("budget_name");
+
+                    b.Property<double>("Spent")
+                        .HasColumnType("double precision")
+                        .HasColumnName("budget_spent");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppUserId");
+
+                    b.ToTable("Budget");
+                });
+
             modelBuilder.Entity("BudgetTracker.Model.Transaction", b =>
                 {
                     b.Property<int>("Id")
@@ -100,7 +135,8 @@ namespace BudgetTracker.Migrations
 
                     b.Property<string>("AppUserId")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("app_user_id");
 
                     b.Property<string>("Category")
                         .IsRequired()
@@ -165,13 +201,13 @@ namespace BudgetTracker.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "4569d27d-2801-4b6e-8f9c-23fb8967b893",
+                            Id = "ec17b359-de3d-4e8b-9cca-e80dfe771fba",
                             Name = "ADMIN",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "f0bf3d79-4001-427b-a15c-4f3822d56fd1",
+                            Id = "e39d0b96-c00e-4749-9ab2-a6c4ee0e0fb8",
                             Name = "USER",
                             NormalizedName = "USER"
                         });
@@ -283,6 +319,17 @@ namespace BudgetTracker.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("BudgetTracker.Model.Budget", b =>
+                {
+                    b.HasOne("BudgetTracker.Model.AppUser", "AppUser")
+                        .WithMany("Budgets")
+                        .HasForeignKey("AppUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AppUser");
+                });
+
             modelBuilder.Entity("BudgetTracker.Model.Transaction", b =>
                 {
                     b.HasOne("BudgetTracker.Model.AppUser", "AppUser")
@@ -347,6 +394,8 @@ namespace BudgetTracker.Migrations
 
             modelBuilder.Entity("BudgetTracker.Model.AppUser", b =>
                 {
+                    b.Navigation("Budgets");
+
                     b.Navigation("Transactions");
                 });
 #pragma warning restore 612, 618

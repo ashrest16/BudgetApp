@@ -15,7 +15,7 @@ public class TransactionRepository:ITransactionRepository
     {
         _applicationDbContext = context;
     }
-    public async Task<List<Transaction>> GetAllAsync(QueryObject query)
+    public async Task<List<Transaction>> GetAllAsync(string userId,QueryObject query)
     {
         var transactions= _applicationDbContext.Transactions.AsQueryable();
         if (!string.IsNullOrWhiteSpace(query.Name))
@@ -41,7 +41,7 @@ public class TransactionRepository:ITransactionRepository
 
         var skipNum = (query.PageNumber - 1) * query.PageSize;
 
-        return await transactions.Skip(skipNum).Take(query.PageSize).ToListAsync();
+        return await transactions.Where(t => t.AppUserId == userId).Skip(skipNum).Take(query.PageSize).ToListAsync();
 
     }
 

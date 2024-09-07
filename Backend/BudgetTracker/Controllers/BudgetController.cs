@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using BudgetTracker.Data;
 using BudgetTracker.Dtos.Budget;
 using BudgetTracker.Helpers;
@@ -28,7 +29,12 @@ public class BudgetController:ControllerBase
     public async Task<IActionResult> GetAllBudget([FromQuery] QueryObject query)
     {
         if (!ModelState.IsValid) return BadRequest(ModelState);
-        var budgets = await _budgetRepository.GetAllBudgetAsync(query);
+        var appUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        if (string.IsNullOrEmpty(appUserId))
+        {
+            return Unauthorized("User ID not found.");
+        }
+        var budgets = await _budgetRepository.GetAllAsync(appUserId,query);
         
         var budgetDtos = budgets
             .Select(budget => budget.ToBudgetDto())
@@ -42,7 +48,7 @@ public class BudgetController:ControllerBase
     public async Task<IActionResult> GetByIdBudget([FromRoute] int id)
     {
         if (!ModelState.IsValid) return BadRequest(ModelState);
-        var budget = await _budgetRepository.GetByIdBudgetAsync(id);
+        var budget = await _budgetRepository.GetByIdAsync(id);
 
         if (budget == null) return NotFound();
         var budgetDto = budget.ToBudgetDto();
@@ -58,9 +64,15 @@ public class BudgetController:ControllerBase
     public async Task<IActionResult> CreateBudget([FromBody] CreateBudgetDto budgetDto)
     {
         if (!ModelState.IsValid) return BadRequest(ModelState);
+        var appUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        if (string.IsNullOrEmpty(appUserId))
+        {
+            return Unauthorized("User ID not found.");
+        }
         
         var budget = budgetDto.ToBudgetFromCreateDto();
-        await _budgetRepository.CreateBudgetAsync(budget);
+        budget.AppUserId = appUserId;
+        await _budgetRepository.CreateAsync(budget);
         
         return CreatedAtAction(nameof(GetByIdBudget), new { id = budget.Id }, budget.ToBudgetDto());
     }
@@ -72,7 +84,7 @@ public class BudgetController:ControllerBase
     {
         if (!ModelState.IsValid) return BadRequest(ModelState);
         
-        var budget = await _budgetRepository.DeleteBudgetAsync(id);
+        var budget = await _budgetRepository.DeleteAsync(id);
         if (budget == null) return NotFound();
         
         return NoContent();

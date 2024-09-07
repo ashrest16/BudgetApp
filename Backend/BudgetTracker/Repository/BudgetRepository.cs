@@ -1,6 +1,7 @@
 using BudgetTracker.Interfaces;
 using BudgetTracker.Data;
 using BudgetTracker.Helpers;
+using Microsoft.EntityFrameworkCore;
 using Budget = BudgetTracker.Model.Budget;
 namespace BudgetTracker.Repository;
 
@@ -13,9 +14,9 @@ public class BudgetRepository:IBudgetRepository
         _applicationDbContext = context;
     }
     
-    public async Task<List<Budget>> GetAllBudgetAsync(QueryObject query)
+    public async Task<List<Budget>> GetAllAsync(string appUserId,QueryObject query)
     {
-        var budget= _applicationDbContext.Budget.AsQueryable();
+        var budget= _applicationDbContext.Budgets.AsQueryable();
         
         if (!string.IsNullOrWhiteSpace(query.Name))
         {
@@ -24,25 +25,25 @@ public class BudgetRepository:IBudgetRepository
         
         var skipNum = (query.PageNumber - 1) * query.PageSize;
 
-        return await budget.Skip(skipNum).Take(query.PageSize).ToListAsync();
+        return await budget.Where(t => t.AppUserId == appUserId).Skip(skipNum).Take(query.PageSize).ToListAsync();
 
     }
 
-    public async Task<Budget?> GetByIdBudgetAsync(int id)
+    public async Task<Budget?> GetByIdAsync(int id)
     {
-        return await _applicationDbContext.Budget.FindAsync(id);
+        return await _applicationDbContext.Budgets.FindAsync(id);
     }
     
-    public async Task<Budget> CreateBudgetAsync(Budget budget)
+    public async Task<Budget> CreateAsync(Budget budget)
     {
-        await _applicationDbContext.Budget.AddAsync(budget);
+        await _applicationDbContext.Budgets.AddAsync(budget);
         await _applicationDbContext.SaveChangesAsync();
         return budget;
     }
 
-    public async Task<Budget?> DeleteBudgetAsync(int id)
+    public async Task<Budget?> DeleteAsync(int id)
     {
-        var budget = await _applicationDbContext.Budget.FindAsync(id);
+        var budget = await _applicationDbContext.Budgets.FindAsync(id);
         if (budget == null)
         {
             return null;

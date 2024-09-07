@@ -3,6 +3,7 @@ using System;
 using BudgetTracker.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace BudgetTracker.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    partial class ApplicationDBContextModelSnapshot : ModelSnapshot
+    [Migration("20240907145250_createBudget")]
+    partial class createBudget
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -101,8 +104,7 @@ namespace BudgetTracker.Migrations
 
                     b.Property<string>("AppUserId")
                         .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("app_user_id");
+                        .HasColumnType("text");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -132,8 +134,7 @@ namespace BudgetTracker.Migrations
 
                     b.Property<string>("AppUserId")
                         .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("app_user_id");
+                        .HasColumnType("text");
 
                     b.Property<string>("Category")
                         .IsRequired()
@@ -198,13 +199,13 @@ namespace BudgetTracker.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "ec17b359-de3d-4e8b-9cca-e80dfe771fba",
+                            Id = "1a58a702-cce3-4f18-893b-959c4f27711c",
                             Name = "ADMIN",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "e39d0b96-c00e-4749-9ab2-a6c4ee0e0fb8",
+                            Id = "4842d553-2d00-4592-943c-6a11c0a045f0",
                             Name = "USER",
                             NormalizedName = "USER"
                         });
