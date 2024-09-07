@@ -1,0 +1,9 @@
+@BudgetTracker_HostAddress = http://localhost:5161
+
+GET {{BudgetTracker_HostAddress}}/api/Transaction
+Accept: application/json
+####
+GET {{BudgetTracker_HostAddress}}/api/Transaction/1
+Accept: application/json
+####
+

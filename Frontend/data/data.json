@@ -1,0 +1,44 @@
+{
+    "transactions":[
+        {
+            "id": 1,
+            "name": "Groceries",
+            "category": "Food",
+            "type": "Expense",
+            "date": "2024-08-20",
+            "cost": "150.00"
+        },
+        {
+            "id": 2,
+            "name": "Salary",
+            "category": "Work",
+            "type": "Income",
+            "date": "2024-08-21",
+            "cost": "3000.00"
+        },
+        {
+            "id": 3,
+            "name": "Gym Membership",
+            "category": "Misc",
+            "type": "Expense",
+            "date": "2024-08-22",
+            "cost": "50.00"
+        },
+        {
+            "id": 4,
+            "name": "Electricity Bill",
+            "category": "Misc",
+            "type": "Expense",
+            "date": "2024-08-23",
+            "cost": "100.00"
+        },
+        {
+            "id": 5,
+            "name": "Freelance Work",
+            "category": "Side Gig",
+            "type": "Income",
+            "date": "2024-08-24",
+            "cost": "500.00"
+        }
+    ]    
+}
