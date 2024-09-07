@@ -1,7 +1,6 @@
 using BudgetTracker.Dtos.Account;
 using BudgetTracker.Interfaces;
 using BudgetTracker.Model;
-using BudgetTracker.Service;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;

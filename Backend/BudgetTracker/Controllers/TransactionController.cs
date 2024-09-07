@@ -3,10 +3,8 @@ using BudgetTracker.Dtos.Transactions;
 using BudgetTracker.Helpers;
 using BudgetTracker.Interfaces;
 using BudgetTracker.Mappers;
-using BudgetTracker.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace BudgetTracker.Controllers;
 
